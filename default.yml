@@ -1,0 +1,43 @@
+org: huukhai0510
+app: khainh-guru
+frameworkVersion: "=3.23.0"
+
+# Load environment variables from .env files (default: false)
+# See https://www.serverless.com/framework/docs/environment-variables
+useDotenv: true
+
+# Custom configuration. This is where Serverless Framework plugins get their
+# configuration from.
+custom:
+  defaultStage: dev
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  resourcesPrefix: ${self:service}-${self:custom.currentStage}
+  webpack:
+    webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
+    includeModules: true   # Node modules configuration for packaging
+    packager: 'yarn'   # Packager that will be used to package your external modules
+  serverless-offline:
+    httpPort: 3001
+    babelOptions:
+      presets: ["es2015"]
+  # stage: ${opt:stage, self:provider.stage}
+  splitStacks:
+    perFunction: true
+    perType: false
+
+  # Merge per-function IAM role configuration with the provider-level role
+  # configuration.
+  serverless-iam-roles-per-function:
+    defaultInherit: true
+
+package:
+  individually: true
+
+# Serverless plugins. The "split-stacks" plugin is used to generate nested
+# CloudFormation stacks to work around the hard limit of 200 resources per
+# stack.
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-iam-roles-per-function
+  - serverless-plugin-split-stacks

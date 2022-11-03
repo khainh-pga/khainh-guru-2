@@ -1,0 +1,101 @@
+org: ${file(../../../default.yml):org}
+app: ${file(../../../default.yml):app}
+frameworkVersion: ${file(../../../default.yml):frameworkVersion}
+
+service: user-management
+
+custom:
+  tableName: 'users-table-${sls:stage}'
+  webpack: ${file(../../../default.yml):custom.webpack}
+  serverless-offline:
+    httpPort: 3001
+    babelOptions:
+      presets: ["es2015"]
+    # webpackConfig: 'webpack.config.js' # Name of webpack configuration file
+    # includeModules: false # Node modules configuration for packaging
+    # packager: 'yarn' # Packager that will be used to package your external modules
+    # excludeFiles: src/**/*.test.js # Provide a glob for files to ignore
+    # packagePath: '../../../package.json'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: 'ap-southeast-1'
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [ UsersTable, Arn ]
+  environment:
+    USERS_TABLE: ${self:custom.tableName}
+
+# functions:
+#   api:
+#     handler: handler.handler
+#     events:
+#       - httpApi: '*'
+
+functions:
+  create:
+    handler: handler.createUser
+    events:
+      - http:
+          path: users
+          method: post
+          cors: true
+
+  list:
+    handler: handler.getListUser
+    events:
+      - http:
+          path: users
+          method: get
+          cors: true
+        
+  get:
+    handler: handler.getUser
+    events:
+      - http:
+          path: users/{id}
+          method: get
+          cors: true
+        
+  update:
+    handler: handler.updateUser
+    events:
+      - http:
+          path: users/{id}
+          method: put
+          cors: true 
+
+  delete:
+    handler: handler.deleteUser
+    events:
+      - http:
+          path: users/{id}
+          method: delete
+          cors: true 
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}
+
+plugins: ${file(../../../default.yml):plugins}
