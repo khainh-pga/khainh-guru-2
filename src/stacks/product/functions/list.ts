@@ -7,7 +7,7 @@ const params = {
   TableName: TABLE,
 };
 
-export const getListUser = async (): Promise<Response> => {
+export const _list = async (): Promise<Response> => {
   // For production workloads you should design your tables and indexes so that your applications can use Query instead of Scan.
   return new Promise((resolve) => {
     dynamoDb.scan(params, (error, result) => {

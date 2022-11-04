@@ -3,7 +3,7 @@ import { NotfoundError, Response, Success } from '../../../common/utils/response
 import dynamoDb, { TABLE } from '../databases'
 
 
-export const getUser = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
+export const _get = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
   const { event } = ambience.lambda
   const params = {
     TableName: TABLE,

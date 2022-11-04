@@ -2,7 +2,7 @@ import { ProcessAmbience } from 'lamprox'
 import { NotfoundError, Response, ServerError, Success, ValidationError } from '../../../common/utils/response'
 import dynamoDb, { TABLE } from '../databases'
 
-export const updateUser = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
+export const _update = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
   const { event } = ambience.lambda
   const timestamp = new Date().getTime()
   const userId = event.pathParameters.id

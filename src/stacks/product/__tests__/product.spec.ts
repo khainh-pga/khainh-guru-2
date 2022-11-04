@@ -1,46 +1,47 @@
 import { Handler } from 'aws-lambda'
 import { invokeHandler, generateMockCallback } from 'lambda-utilities'
-import { generateDummyAPIGatewayEvent, generateProcessAmbience } from 'lamprox'
+import { generateDummyAPIGatewayEvent } from 'lamprox'
 import { v4 } from 'uuid'
 
-import { createUser, getUser, getListUser, updateUser, deleteUser } from '../handler'
+import { createProduct, getProduct, getListProduct, updateProduct, deleteProduct } from '../handler'
 import { Response } from '../../../common/utils/response'
 
-describe('User management', () => {
-  const dummyUser = {
-    userId: `test-${v4()}`,
-    name: 'User Test'
+describe('Product management', () => {
+  const dummyProduct = {
+    productId: `test-${v4()}`,
+    name: 'Product Test',
+    owner: 'user-default'
   }
 
   afterAll(() => {
-    const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyUser.userId }})
+    const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyProduct.productId }})
     const callback = generateMockCallback((error, result: any) => {
       callback.once()
-      // console.log('Dummy user deleted successfuly.')
+      // console.log('Dummy product deleted successfuly.')
     })
 
-    invokeHandler(deleteUser as Handler, { event, callback })
+    invokeHandler(deleteProduct as Handler, { event, callback })
   })
 
-  describe('Create user', () => {
+  describe('Create product', () => {
     it('Should return response.', done => {
-      const event = generateDummyAPIGatewayEvent({ body: JSON.stringify(dummyUser)})
+      const event = generateDummyAPIGatewayEvent({ body: JSON.stringify(dummyProduct)})
       const callback = generateMockCallback((error, result: any) => {
         callback.once()
         const body = JSON.parse(result.body) as Response
         expect(body.statusCode).toBe(200)
-        expect(body.data?.userId).toBe(dummyUser.userId)
-        expect(body.data?.name).toBe(dummyUser.name)
+        expect(body.data?.productId).toBe(dummyProduct.productId)
+        expect(body.data?.name).toBe(dummyProduct.name)
         expect(callback.verify()).toBe(true)
 
         done()
       })
 
-      invokeHandler(createUser as Handler, { event, callback })
+      invokeHandler(createProduct as Handler, { event, callback })
     })
   })
 
-  describe('Get user list', () => {
+  describe('Get product list', () => {
     it('Should return response.', done => {
       const event = generateDummyAPIGatewayEvent()
       const callback = generateMockCallback((error, result: any) => {
@@ -53,40 +54,40 @@ describe('User management', () => {
         done()
       })
 
-      invokeHandler(getListUser as Handler, { event, callback })
+      invokeHandler(getListProduct as Handler, { event, callback })
     })
   })
 
-  describe('Get user', () => {
+  describe('Get product', () => {
     it('Should return response.', done => {
-      const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyUser.userId }})
+      const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyProduct.productId }})
       const callback = generateMockCallback((error, result: any) => {
         callback.once()
         const body = JSON.parse(result.body) as Response
         expect(body.statusCode).toBe(200)
-        expect(body.data?.userId).toBe(dummyUser.userId)
-        expect(body.data?.name).toBe(dummyUser.name)
+        expect(body.data?.productId).toBe(dummyProduct.productId)
+        expect(body.data?.name).toBe(dummyProduct.name)
         expect(callback.verify()).toBe(true)
 
         done()
       })
 
-      invokeHandler(getUser as Handler, { event, callback })
+      invokeHandler(getProduct as Handler, { event, callback })
     })
   })
 
-  describe('Update user', () => {
+  describe('Update product', () => {
     const updatePayload = {
-      name: 'New User Name'
+      name: 'New Product Name'
     }
 
     it('Should return response.', done => {
-      const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyUser.userId }, body: JSON.stringify(updatePayload)})
+      const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyProduct.productId }, body: JSON.stringify(updatePayload)})
       const callback = generateMockCallback((error, result: any) => {
         callback.once()
         const body = JSON.parse(result.body) as Response
         expect(body.statusCode).toBe(200)
-        expect(body.data?.userId).toBe(dummyUser.userId)
+        expect(body.data?.productId).toBe(dummyProduct.productId)
         expect(body.data?.name).toBe(updatePayload.name)
         expect(body.data?.updatedAt).toBeGreaterThan(body.data?.createdAt)
         expect(callback.verify()).toBe(true)
@@ -94,24 +95,24 @@ describe('User management', () => {
         done()
       })
 
-      invokeHandler(updateUser as Handler, { event, callback })
+      invokeHandler(updateProduct as Handler, { event, callback })
     })
   })
 
-  describe('Delete user', () => {
+  describe('Delete product', () => {
     it('Should return response.', done => {
-      const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyUser.userId }})
+      const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyProduct.productId }})
       const callback = generateMockCallback((error, result: any) => {
         callback.once()
         const body = JSON.parse(result.body) as Response
         expect(body.statusCode).toBe(200)
-        expect(body.message).toBe('User deleted successfully.')
+        expect(body.message).toBe('Product deleted successfully.')
         expect(callback.verify()).toBe(true)
 
         done()
       })
 
-      invokeHandler(deleteUser as Handler, { event, callback })
+      invokeHandler(deleteProduct as Handler, { event, callback })
     })
   })
 })

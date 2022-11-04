@@ -2,7 +2,7 @@ import { ProcessAmbience } from 'lamprox'
 import { NotfoundError, Response, ServerError, Success, ValidationError } from '../../../common/utils/response'
 import dynamoDb, { TABLE } from '../databases'
 
-export const deleteUser = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
+export const _delete = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
   const { event } = ambience.lambda
   const userId = event.pathParameters.id
   if (!userId) {

@@ -2,7 +2,7 @@ import { ProcessAmbience } from 'lamprox';
 import { ConflictError, Response, ServerError, Success, ValidationError } from '../../../common/utils/response';
 import dynamoDb, { TABLE } from '../databases'
 
-export const createUser = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
+export const _create = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(ambience.lambda.event.body);
   if (!data.userId) {

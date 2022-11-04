@@ -2,13 +2,13 @@ org: ${file(../../../default.yml):org}
 app: ${file(../../../default.yml):app}
 frameworkVersion: ${file(../../../default.yml):frameworkVersion}
 
-service: user-management
+service: product-management
 
 custom:
-  tableName: 'users-table-${sls:stage}'
+  tableName: 'product-${sls:stage}'
   webpack: ${file(../../../default.yml):custom.webpack}
   serverless-offline:
-    httpPort: 3001
+    httpPort: 3002
     babelOptions:
       presets: ["es2015"]
     # webpackConfig: 'webpack.config.js' # Name of webpack configuration file
@@ -33,7 +33,7 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
           Resource:
-            - Fn::GetAtt: [ UsersTable, Arn ]
+            - Fn::GetAtt: [ ProductsTable, Arn ]
   environment:
     TABLE: ${self:custom.tableName}
 
@@ -45,42 +45,42 @@ provider:
 
 functions:
   create:
-    handler: handler.createUser
+    handler: handler.createProduct
     events:
       - http:
-          path: users
+          path: products
           method: post
           cors: true
 
   list:
-    handler: handler.getListUser
+    handler: handler.getListProduct
     events:
       - http:
-          path: users
+          path: products
           method: get
           cors: true
         
   get:
-    handler: handler.getUser
+    handler: handler.getProduct
     events:
       - http:
-          path: users/{id}
+          path: products/{id}
           method: get
           cors: true
         
   update:
-    handler: handler.updateUser
+    handler: handler.updateProduct
     events:
       - http:
-          path: users/{id}
+          path: products/{id}
           method: put
           cors: true 
 
   delete:
-    handler: handler.deleteUser
+    handler: handler.deleteProduct
     events:
       - http:
-          path: users/{id}
+          path: products/{id}
           method: delete
           cors: true 
 
