@@ -9,7 +9,9 @@ jobs:
   deploy-user-stack:
     name: deploy-user-stack
     runs-on: ubuntu-latest
-    working-directory: src/stacks/user
+    defaults:
+      run:
+        working-directory: src/stacks/user
     strategy:
       matrix:
         node-version: [16.x]
@@ -35,7 +37,9 @@ jobs:
   deploy-product-stack:
     name: deploy-product-stack
     runs-on: ubuntu-latest
-    working-directory: src/stacks/product
+    defaults:
+      run:
+        working-directory: src/stacks/product
     strategy:
       matrix:
         node-version: [16.x]
