@@ -5,10 +5,10 @@ import dynamoDb, { TABLE } from '../databases'
 export const _update = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
   const { event } = ambience.lambda
   const timestamp = new Date().getTime()
-  const userId = event.pathParameters.id
-  if (!userId) {
+  const productId = event.pathParameters.id
+  if (!productId) {
     console.error('Validation Failed')
-    return new ValidationError('User id is missing.')
+    return new ValidationError('Product id is missing.')
   }
   const data = JSON.parse(event.body)
 
@@ -17,7 +17,7 @@ export const _update = async (ambience: ProcessAmbience<void, void>): Promise<Re
       {
         TableName: TABLE,
         Key: {
-          userId,
+          productId,
         },
       },
       (error, result) => {
@@ -28,13 +28,13 @@ export const _update = async (ambience: ProcessAmbience<void, void>): Promise<Re
         }
   
         if (!result?.Item) {
-          return resolve(new NotfoundError('User id not found.'))
+          return resolve(new NotfoundError('Product id not found.'))
         }
   
         const params = {
           TableName: TABLE,
           Key: {
-            userId,
+            productId,
           },
           ExpressionAttributeNames: {
             '#name': 'name',

@@ -5,9 +5,9 @@ import dynamoDb, { TABLE } from '../databases'
 export const _create = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(ambience.lambda.event.body);
-  if (!data.userId) {
+  if (!data.productId) {
     console.error('Validation Failed');
-    return new ValidationError('User id is missing.');
+    return new ValidationError('Product id is missing.');
   }
 
   return new Promise((resolve) => {
@@ -15,7 +15,7 @@ export const _create = async (ambience: ProcessAmbience<void, void>): Promise<Re
       {
         TableName: TABLE,
         Key: {
-          userId: data.userId
+          productId: data.productId
         }
       },
       (error, result) => {
@@ -26,7 +26,7 @@ export const _create = async (ambience: ProcessAmbience<void, void>): Promise<Re
         }
   
         if (result?.Item) {
-          return resolve(new ConflictError('User id already existed.'))
+          return resolve(new ConflictError('Product id already existed.'))
         }
   
         const params = {
@@ -43,7 +43,7 @@ export const _create = async (ambience: ProcessAmbience<void, void>): Promise<Re
           // handle potential errors
           if (err2) {
             console.error(err2);
-            return resolve(new ServerError('Couldn\'t create the user.'))
+            return resolve(new ServerError('Couldn\'t create the product.'))
           }
 
           resolve(new Success(null, params.Item))

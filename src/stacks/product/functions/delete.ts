@@ -4,10 +4,10 @@ import dynamoDb, { TABLE } from '../databases'
 
 export const _delete = async (ambience: ProcessAmbience<void, void>): Promise<Response> => {
   const { event } = ambience.lambda
-  const userId = event.pathParameters.id
-  if (!userId) {
+  const productId = event.pathParameters.id
+  if (!productId) {
     console.error('Validation Failed')
-    return(new ValidationError('User id is missing.'))
+    return(new ValidationError('Product id is missing.'))
   }
 
   return new Promise((resolve) => {
@@ -15,7 +15,7 @@ export const _delete = async (ambience: ProcessAmbience<void, void>): Promise<Re
       {
         TableName: TABLE,
         Key: {
-          userId,
+          productId,
         },
       },
       (error, result) => {
@@ -26,14 +26,14 @@ export const _delete = async (ambience: ProcessAmbience<void, void>): Promise<Re
         }
   
         if (!result?.Item) {
-          return resolve(new NotfoundError('User id not found.'))
+          return resolve(new NotfoundError('Product id not found.'))
         }
   
         dynamoDb.delete(
           {
             TableName: TABLE,
             Key: {
-              userId,
+              productId,
             },
           },
           (error2) => {
@@ -42,7 +42,7 @@ export const _delete = async (ambience: ProcessAmbience<void, void>): Promise<Re
               return resolve(new ServerError(error2.message))
             }
   
-            return resolve(new Success('User deleted successfully.'))
+            return resolve(new Success('Product deleted successfully.'))
           }
         )
       }

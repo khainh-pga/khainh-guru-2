@@ -10,11 +10,11 @@ export abstract class Response {
     this.statusCode = statusCode
     this.data = data
     this.message = message
-    this.headers = omitEmpty({
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-      ...headers
-    })
+    // this.headers = omitEmpty({
+    //   'Access-Control-Allow-Origin': '*',
+    //   'Access-Control-Allow-Credentials': true,
+    //   ...headers
+    // })
   }
 }
 

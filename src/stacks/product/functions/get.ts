@@ -8,7 +8,7 @@ export const _get = async (ambience: ProcessAmbience<void, void>): Promise<Respo
   const params = {
     TableName: TABLE,
     Key: {
-      userId: event.pathParameters.id,
+      productId: event.pathParameters.id,
     },
   };
 
@@ -18,11 +18,11 @@ export const _get = async (ambience: ProcessAmbience<void, void>): Promise<Respo
       // handle potential errors
       if (error) {
         console.error(error);
-        return resolve(new NotfoundError('Couldn\'t fetch the user.'));
+        return resolve(new NotfoundError('Couldn\'t fetch the product.'));
       }
   
       // create a response
-      const response = result.Item ? new Success(null, result.Item) : new NotfoundError('User not found.')
+      const response = result.Item ? new Success(null, result.Item) : new NotfoundError('Product not found.')
       resolve(response)
     });
   })

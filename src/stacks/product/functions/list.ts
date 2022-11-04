@@ -14,7 +14,7 @@ export const _list = async (): Promise<Response> => {
       // handle potential errors
       if (error) {
         console.error(error)
-        resolve(new ServerError('Couldn\'t fetch the user list.'))
+        resolve(new ServerError('Couldn\'t fetch the product list.'))
       }
   
       // create a response
