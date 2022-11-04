@@ -13,7 +13,6 @@
     "start": "serverless offline start",
     "start:user": "cd src/stacks/user && serverless offline start",
     "test": "jest .",
-    "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
   "engines": {
