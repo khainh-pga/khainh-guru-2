@@ -19,7 +19,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: cd src/stacks/user
-    - run: npm ci
+    - run: npx yarn
     - name: serverless deploy
       uses: serverless/github-action@v3.1
       with:
@@ -44,7 +44,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: cd src/stacks/product
-    - run: npm ci
+    - run: npx yarn
     - name: serverless deploy
       uses: serverless/github-action@v3.1
       with:
