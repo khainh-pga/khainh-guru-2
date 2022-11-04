@@ -9,9 +9,6 @@ jobs:
   deploy-user-stack:
     name: deploy-user-stack
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/stacks/user
     strategy:
       matrix:
         node-version: [16.x]
@@ -21,12 +18,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    # - run: cd src/stacks/user
-    - run: npx yarn
+    - run: cd src/stacks/user && npx yarn
     - name: serverless deploy
       uses: serverless/github-action@v3.1
       with:
-        args: deploy --stage staging
+        args: deploy --stage staging -C src/stacks/user/serverless.yml
       env:
         # SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         # or if using AWS credentials directly
@@ -37,9 +33,6 @@ jobs:
   deploy-product-stack:
     name: deploy-product-stack
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/stacks/product
     strategy:
       matrix:
         node-version: [16.x]
@@ -49,12 +42,11 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    # - run: cd src/stacks/product
-    - run: npx yarn
+    - run: cd src/stacks/product && npx yarn
     - name: serverless deploy
       uses: serverless/github-action@v3.1
       with:
-        args: deploy --stage staging
+        args: deploy --stage staging -C src/stacks/product/serverless.yml
       env:
         # SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         # or if using AWS credentials directly
