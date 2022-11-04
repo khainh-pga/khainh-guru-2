@@ -9,6 +9,7 @@ jobs:
   deploy-user-stack:
     name: deploy-user-stack
     runs-on: ubuntu-latest
+    working-directory: src/stacks/user
     strategy:
       matrix:
         node-version: [16.x]
@@ -18,7 +19,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd src/stacks/user
+    # - run: cd src/stacks/user
     - run: npx yarn
     - name: serverless deploy
       uses: serverless/github-action@v3.1
@@ -34,6 +35,7 @@ jobs:
   deploy-product-stack:
     name: deploy-product-stack
     runs-on: ubuntu-latest
+    working-directory: src/stacks/product
     strategy:
       matrix:
         node-version: [16.x]
@@ -43,7 +45,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd src/stacks/product
+    # - run: cd src/stacks/product
     - run: npx yarn
     - name: serverless deploy
       uses: serverless/github-action@v3.1
