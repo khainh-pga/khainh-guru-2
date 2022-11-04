@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy-user-stack:
-    name: deploy
+    name: deploy-user-stack
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -32,7 +32,7 @@ jobs:
         STATE: staging
     
   deploy-product-stack:
-    name: deploy
+    name: deploy-product-stack
     runs-on: ubuntu-latest
     strategy:
       matrix:
