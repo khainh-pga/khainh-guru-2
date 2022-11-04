@@ -1,6 +1,6 @@
 org: huukhai0510
 app: khainh-guru
-frameworkVersion: "=3.23.0"
+frameworkVersion: ">=3.23.0"
 
 # Load environment variables from .env files (default: false)
 # See https://www.serverless.com/framework/docs/environment-variables
@@ -16,6 +16,8 @@ custom:
     webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
     includeModules: true   # Node modules configuration for packaging
     packager: 'yarn'   # Packager that will be used to package your external modules
+    excludeFiles: src/**/*.test.js # Provide a glob for files to ignore
+    # packagePath: '../../package.json'
   serverless-offline:
     httpPort: 3001
     babelOptions:

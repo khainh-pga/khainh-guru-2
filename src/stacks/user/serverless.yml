@@ -21,21 +21,9 @@ provider:
   name: aws
   runtime: nodejs16.x
   region: 'ap-southeast-1'
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - dynamodb:Query
-            - dynamodb:Scan
-            - dynamodb:GetItem
-            - dynamodb:PutItem
-            - dynamodb:UpdateItem
-            - dynamodb:DeleteItem
-          Resource:
-            - Fn::GetAtt: [ UsersTable, Arn ]
   environment:
     TABLE: ${self:custom.tableName}
+    STATE: ${sls:stage}
 
 # functions:
 #   api:
@@ -51,6 +39,12 @@ functions:
           path: users
           method: post
           cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource:
+          - Fn::GetAtt: [ UsersTable, Arn ]
 
   list:
     handler: handler.getListUser
@@ -59,6 +53,12 @@ functions:
           path: users
           method: get
           cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Scan
+        Resource:
+          - Fn::GetAtt: [ UsersTable, Arn ]
         
   get:
     handler: handler.getUser
@@ -67,6 +67,12 @@ functions:
           path: users/{id}
           method: get
           cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+        Resource:
+          - Fn::GetAtt: [ UsersTable, Arn ]
         
   update:
     handler: handler.updateUser
@@ -74,7 +80,13 @@ functions:
       - http:
           path: users/{id}
           method: put
-          cors: true 
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource:
+          - Fn::GetAtt: [ UsersTable, Arn ]
 
   delete:
     handler: handler.deleteUser
@@ -83,6 +95,12 @@ functions:
           path: users/{id}
           method: delete
           cors: true 
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+        Resource:
+          - Fn::GetAtt: [ UsersTable, Arn ]
 
 resources:
   - ${file(./resources/dynamoDB.yml)}

@@ -20,7 +20,7 @@
   "ignorePatterns": [
     "webpack-configure.js",
     "webpack.config.js",
-    "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?|ts?)$",
+    "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "jest.config.js",
     "jest-dynamodb-config.js"
   ],
