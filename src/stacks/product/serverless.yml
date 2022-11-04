@@ -21,21 +21,9 @@ provider:
   name: aws
   runtime: nodejs16.x
   region: 'ap-southeast-1'
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - dynamodb:Query
-            - dynamodb:Scan
-            - dynamodb:GetItem
-            - dynamodb:PutItem
-            - dynamodb:UpdateItem
-            - dynamodb:DeleteItem
-          Resource:
-            - Fn::GetAtt: [ ProductsTable, Arn ]
   environment:
     TABLE: ${self:custom.tableName}
+    STATE: ${sls:stage}
 
 # functions:
 #   api:
@@ -51,6 +39,12 @@ functions:
           path: products
           method: post
           cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource:
+          - Fn::GetAtt: [ ProductsTable, Arn ]
 
   list:
     handler: handler.getListProduct
@@ -59,6 +53,12 @@ functions:
           path: products
           method: get
           cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Scan
+        Resource:
+          - Fn::GetAtt: [ ProductsTable, Arn ]
         
   get:
     handler: handler.getProduct
@@ -67,6 +67,12 @@ functions:
           path: products/{id}
           method: get
           cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:GetItem
+        Resource:
+          - Fn::GetAtt: [ ProductsTable, Arn ]
         
   update:
     handler: handler.updateProduct
@@ -75,6 +81,12 @@ functions:
           path: products/{id}
           method: put
           cors: true 
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource:
+          - Fn::GetAtt: [ ProductsTable, Arn ]
 
   delete:
     handler: handler.deleteProduct
@@ -82,7 +94,13 @@ functions:
       - http:
           path: products/{id}
           method: delete
-          cors: true 
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+        Resource:
+          - Fn::GetAtt: [ ProductsTable, Arn ]
 
 resources:
   - ${file(./resources/dynamoDB.yml)}
