@@ -1,9 +1,9 @@
-import omitEmpty from 'omit-empty'
+import omitEmpty from 'omit-empty-es'
 
 export abstract class Response {
   statusCode?: number
   message?: string
-  data: unknown
+  data: any
   protected headers: object
 
   constructor(statusCode, message?: string, data?: string | object, headers?: object) {

@@ -19,7 +19,9 @@
   },
   "ignorePatterns": [
     "webpack-configure.js",
-    "webpack.config.js"
+    "webpack.config.js",
+    "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?|ts?)$",
+    "jest.config.js"
   ],
   "settings": {
     "import/resolver": {

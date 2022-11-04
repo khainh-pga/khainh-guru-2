@@ -1,6 +1,7 @@
 {
   "exclude": [
-      "node_modules"
+      "node_modules",
+      "__test__"
   ],
   "compilerOptions": {
     "sourceMap": true,
@@ -11,4 +12,3 @@
     "moduleResolution": "node"
   }
 }
-
