@@ -20,8 +20,3 @@ resources:
   # - ${file(./resources/product-table.yml)}
   - ${file(./resources/datalake.yml)}
   - ${file(./resources/glue.yml)}
-
-plugins:
-  - serverless-offline
-  - serverless-iam-roles-per-function
-  - serverless-plugin-split-stacks
