@@ -18,12 +18,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd src/stacks/user && npx yarn
-    - name: serverless deploy
-      uses: serverless/github-action@v3.1
-      with:
-        args: -c "cd ./src/stacks/user && npx yarn && serverless deploy --stage staging"
-        entrypoint: /bin/sh
+    - run: cd src/stacks/user && npx yarn && serverless deploy --stage staging
       env:
         # SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         # or if using AWS credentials directly
@@ -43,12 +38,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd src/stacks/product && npx yarn
-    - name: serverless deploy
-      uses: serverless/github-action@v3.1
-      with:
-        args: -c "cd ./src/stacks/product && && npx yarn && serverless deploy --stage staging"
-        entrypoint: /bin/sh
+    - run: cd src/stacks/product && npx yarn && serverless deploy --stage staging
       env:
         # SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         # or if using AWS credentials directly
