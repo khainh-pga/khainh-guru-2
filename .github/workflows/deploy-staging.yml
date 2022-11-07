@@ -20,7 +20,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: cd src/stacks/user && npx yarn
     - name: serverless deploy
-      uses: serverless/github-action@v1.53.0
+      uses: serverless/github-action@v3.1
       with:
         args: -c "cd ./src/stacks/user && npm i && serverless deploy --stage staging"
         entrypoint: /bin/sh
@@ -45,7 +45,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: cd src/stacks/product && npx yarn
     - name: serverless deploy
-      uses: serverless/github-action@v1.53.0
+      uses: serverless/github-action@v3.1
       with:
         args: -c "cd ./src/stacks/product && npm i && serverless deploy --stage staging"
         entrypoint: /bin/sh
