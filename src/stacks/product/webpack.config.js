@@ -1,3 +1,3 @@
-'use strict';
+const createConfig = require('../webpack-configure')
 
-module.exports = require('../webpack-configure')(__dirname);
+module.exports = createConfig(__dirname)
