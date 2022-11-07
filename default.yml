@@ -11,12 +11,20 @@ useDotenv: true
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
+  stage: ${self:custom.currentStage}
+  GLUE_DATABASE: 'user-product-${sls:stage}'
+  USER_TABLE: 'users-table-${sls:stage}'
+  PRODUCT_TABLE: 'product-${sls:stage}'
+  S3_BUCKET_NAME: 'user-product-${sls:stage}'
+  S3_LOG_BUCKET_NAME: 'user-product-logs-${sls:stage}'
+  ArtifactBucketName: 'Art-${sls:stage}'
+  StagingDir: data/test-stage/
   resourcesPrefix: ${self:service}-${self:custom.currentStage}
   webpack:
     webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
     includeModules: true   # Node modules configuration for packaging
     packager: 'yarn'   # Packager that will be used to package your external modules
-    excludeFiles: src/**/*.test.js # Provide a glob for files to ignore
+    excludeFiles: ./**/*.test.js # Provide a glob for files to ignore
     # packagePath: '../../package.json'
   serverless-offline:
     httpPort: 3001
@@ -24,7 +32,7 @@ custom:
       presets: ["es2015"]
   # stage: ${opt:stage, self:provider.stage}
   splitStacks:
-    perFunction: true
+    perFunction: false
     perType: false
 
   # Merge per-function IAM role configuration with the provider-level role

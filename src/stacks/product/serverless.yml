@@ -4,32 +4,15 @@ frameworkVersion: ${file(../../../default.yml):frameworkVersion}
 
 service: product-management
 
-custom:
-  tableName: 'product-${sls:stage}'
-  webpack: ${file(../../../default.yml):custom.webpack}
-  serverless-offline:
-    httpPort: 3002
-    babelOptions:
-      presets: ["es2015"]
-    # webpackConfig: 'webpack.config.js' # Name of webpack configuration file
-    # includeModules: false # Node modules configuration for packaging
-    # packager: 'yarn' # Packager that will be used to package your external modules
-    # excludeFiles: src/**/*.test.js # Provide a glob for files to ignore
-    # packagePath: '../../../package.json'
+custom: ${file(../../../default.yml):custom}
 
 provider:
   name: aws
   runtime: nodejs16.x
   region: 'ap-southeast-1'
   environment:
-    TABLE: ${self:custom.tableName}
+    TABLE: ${self:custom.PRODUCT_TABLE}
     STATE: ${sls:stage}
-
-# functions:
-#   api:
-#     handler: handler.handler
-#     events:
-#       - httpApi: '*'
 
 functions:
   create:
@@ -103,6 +86,6 @@ functions:
           - Fn::GetAtt: [ ProductsTable, Arn ]
 
 resources:
-  - ${file(./resources/dynamoDB.yml)}
+  - ${file(../../common/resources/product-table.yml)}
 
 plugins: ${file(../../../default.yml):plugins}

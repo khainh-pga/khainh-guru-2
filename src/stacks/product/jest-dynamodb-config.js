@@ -8,7 +8,7 @@ module.exports = async () => {
 
   await new Promise((resolve, reject) => {
     try {
-      glob('./**/dynamoDB.yml', { absolute: true }, function (er, files) {
+      glob('../../common/resources/product-table.yml', { absolute: true }, function (er, files) {
         (files).forEach((file) => {
           const doc = yaml.load(fs.readFileSync(file, 'utf8'))
 

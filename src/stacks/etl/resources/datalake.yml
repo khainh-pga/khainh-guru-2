@@ -1,0 +1,43 @@
+Resources:
+  LogBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.S3_LOG_BUCKET_NAME}
+        VersioningConfiguration:
+          Status: Enabled #keeps different versions of object if overwrited/updated
+        AccessControl:
+          LogDeliveryWrite
+
+  DataLake:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: ${self:custom.S3_BUCKET_NAME}
+      VersioningConfiguration:
+        Status: Enabled #keeps different versions of object if overwrited/updated
+      PublicAccessBlockConfiguration: #blocks any public access to s3 bucket
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+      LoggingConfiguration:
+        DestinationBucketName: ${self:custom.S3_BUCKET_NAME}
+        LogFilePrefix: ${self:custom.S3_LOG_BUCKET_NAME}
+
+  #Arn of S3 bucket needs to be exported in order to use it from other services (ingestion and processing)
+  # Outputs:
+  #   DataLakeArn:
+  #     Value: !GetAtt DataLake.Arn
+  #     Export:
+  #       Name: ${self:custom.stage}-datalakeArn
+  #   DataLakeName:
+  #     Value: ${self:resources.Resources.DataLake.Properties.BucketName}
+  #     Export:
+  #       Name: ${self:custom.stage}-datalakeName
+  #   DefaultStagingDir:
+  #     Value: ${self:custom.StagingDir}
+  #     Export:
+  #       Name: ${self:custom.stage}-default-staging-dir
+  #   LogBucketName:
+  #     Value: ${self:resources.Resources.LogBucket.Properties.BucketName}
+  #     Export:
+  #       Name: ${self:custom.stage}-logBucketName

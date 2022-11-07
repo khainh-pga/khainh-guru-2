@@ -1,0 +1,18 @@
+Resources:
+  ProductsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: productId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: productId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      TableName: ${self:custom.PRODUCT_TABLE}
+
+Outputs:
+    ProductsTableAccessOutput:
+      Value: !GetAtt ProductsTable.Arn
+      Export:
+        Name: product-table-access-${self:custom.stage}
