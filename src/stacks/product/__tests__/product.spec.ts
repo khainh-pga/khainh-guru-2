@@ -5,6 +5,7 @@ import { v4 } from 'uuid'
 
 import { createProduct, getProduct, getListProduct, updateProduct, deleteProduct } from '../handler'
 import { Response } from '../../../common/utils/response'
+import dynamoDb, { TABLE } from '../databases'
 
 describe('Product management', () => {
   const dummyProduct = {
@@ -14,14 +15,10 @@ describe('Product management', () => {
   }
 
   afterAll((done) => {
-    const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyProduct.productId }})
-    const callback = generateMockCallback((error, result: any) => {
-      callback.once()
-      // console.log('Dummy product deleted successfuly.')
-    })
-
-    invokeHandler(deleteProduct as Handler, { event, callback })
-    done()
+    dynamoDb.delete({TableName: TABLE, Key: {id: dummyProduct.productId}}).promise()
+    .then(() => {})
+    .catch(() => {})
+    .finally(() => done());
   })
 
   describe('Create product', () => {

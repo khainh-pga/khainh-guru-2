@@ -12,7 +12,7 @@
     "lint": "tslint './**/*.ts{,x}'",
     "start": "serverless offline start",
     "start:user": "cd src/stacks/user && serverless offline start",
-    "test": "jest .",
+    "test": "jest ./ --detectOpenHandles",
     "lint-staged": "lint-staged"
   },
   "engines": {

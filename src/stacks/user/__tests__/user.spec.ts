@@ -5,6 +5,7 @@ import { v4 } from 'uuid'
 
 import { createUser, getUser, getListUser, updateUser, deleteUser } from '../handler'
 import { Response } from '../../../common/utils/response'
+import dynamoDb, { TABLE } from '../databases'
 
 describe('User management', () => {
   const dummyUser = {
@@ -13,14 +14,10 @@ describe('User management', () => {
   }
 
   afterAll((done) => {
-    const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyUser.userId }})
-    const callback = generateMockCallback((error, result: any) => {
-      callback.once()
-      // console.log('Dummy user deleted successfuly.')
-    })
-
-    invokeHandler(deleteUser as Handler, { event, callback })
-    done()
+    dynamoDb.delete({TableName: TABLE, Key: {id: dummyUser.userId}}).promise()
+    .then(() => {})
+    .catch(() => {})
+    .finally(() => done());
   })
 
   describe('Create user', () => {
