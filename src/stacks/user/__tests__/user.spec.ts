@@ -12,7 +12,7 @@ describe('User management', () => {
     name: 'User Test'
   }
 
-  afterAll(() => {
+  afterAll((done) => {
     const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyUser.userId }})
     const callback = generateMockCallback((error, result: any) => {
       callback.once()
@@ -20,6 +20,7 @@ describe('User management', () => {
     })
 
     invokeHandler(deleteUser as Handler, { event, callback })
+    done()
   })
 
   describe('Create user', () => {

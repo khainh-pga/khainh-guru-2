@@ -13,7 +13,7 @@ describe('Product management', () => {
     owner: 'user-default'
   }
 
-  afterAll(() => {
+  afterAll((done) => {
     const event = generateDummyAPIGatewayEvent({ pathParameters: { "id": dummyProduct.productId }})
     const callback = generateMockCallback((error, result: any) => {
       callback.once()
@@ -21,6 +21,7 @@ describe('Product management', () => {
     })
 
     invokeHandler(deleteProduct as Handler, { event, callback })
+    done()
   })
 
   describe('Create product', () => {
