@@ -86,6 +86,6 @@ functions:
           - Fn::GetAtt: [ UsersTable, Arn ]
 
 resources:
-  - ${file(../../common/resources/user-table.yml)}
+  - ${file(./resources/dynamoDB.yml)}
 
 plugins: ${file(../../../default.yml):plugins}

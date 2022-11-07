@@ -5,12 +5,14 @@ const fs   = require('fs')
 
 module.exports = async () => {
   const tables = []
+  const GetAttYamlType = new yaml.Type('!GetAtt', { kind: 'scalar' }); // new yaml.Type('!GetAtt', { kind: 'mapping' });
+  const NEW_SCHEMA = yaml.DEFAULT_SCHEMA.extend([ GetAttYamlType ])
 
   await new Promise((resolve, reject) => {
     try {
-      glob('src/**/resources/*.yml', { absolute: true }, function (er, files) {
+      glob('src/**/dynamoDB.yml', { absolute: true }, function (er, files) {
         (files).forEach((file) => {
-          const doc = yaml.load(fs.readFileSync(file, 'utf8'))
+          const doc = yaml.load(fs.readFileSync(file, 'utf8'), { schema: NEW_SCHEMA })
 
           Object.values(doc.Resources)
           .filter((r) => r.Type === 'AWS::DynamoDB::Table')
