@@ -32,6 +32,6 @@ module.exports = async () => {
 
   return {
     tables,
-    port: 8000
+    port: 8008
   }
 }
