@@ -1,4 +1,4 @@
-import omitEmpty from 'omit-empty-es'
+// import omitEmpty from 'omit-empty-es'
 
 export abstract class Response {
   statusCode?: number

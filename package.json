@@ -26,7 +26,6 @@
     "dotenv": "^16.0.3",
     "lambda-utilities": "^0.2.0",
     "lamprox": "^0.15.2",
-    "omit-empty-es": "^1.1.3",
     "prettier": "^2.7.1",
     "uuid": "^9.0.0"
   },
