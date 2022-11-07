@@ -1,0 +1,14 @@
+{
+  "exclude": [
+      "node_modules",
+      "__test__"
+  ],
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es6",
+    "lib": [
+    "esnext"
+    ],
+    "moduleResolution": "node"
+  }
+}
