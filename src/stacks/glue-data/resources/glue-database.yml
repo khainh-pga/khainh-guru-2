@@ -5,9 +5,3 @@ Resources:
       CatalogId: !Ref AWS::AccountId
       DatabaseInput:
         Name: ${param:GLUE_DATABASE}
-
-Outputs:
-  GlueDatabaseAccessOutput:
-    Value: !GetAtt GlueDatabase.Arn
-    Export:
-      Name: ${param:GLUE_DATABASE_ACCESS_ARN}

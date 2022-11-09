@@ -9,7 +9,7 @@ custom: ${file(../../../default.yml):custom}
 provider:
   name: aws
   runtime: nodejs16.x
-  region: ${param:AWS_REGION}
+  region: ${opt:region, 'ap-southeast-1'}
   deploymentBucket: 
     name: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}
     # Prevents public access via ACLs or bucket policies (default: false)

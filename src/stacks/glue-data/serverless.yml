@@ -9,7 +9,7 @@ custom: ${file(../../../default.yml):custom}
 provider:
   name: aws
   runtime: python3.9
-  region: ${param:AWS_REGION}
+  region: ${opt:region, 'ap-southeast-1'}
   stackName: glue-data-${sls:stage}
   deploymentBucket: 
     name: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}

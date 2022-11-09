@@ -11,7 +11,6 @@ params:
   default:
     # General
     DEPLOYMENT_BUCKET_NAME: ${self:service}-art-${sls:stage}
-    AWS_REGION: 'ap-southeast-1'
     # Glue
     GLUE_DATABASE: ${self:service}-${sls:stage}
     DATALAKE_BUCKET_NAME: ${self:service}-data-${sls:stage}
@@ -65,7 +64,6 @@ custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
   stage: ${self:custom.currentStage}
-  aws_region: ${param:AWS_REGION}
   webpack:
     webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
     includeModules: true   # Node modules configuration for packaging
@@ -91,5 +89,5 @@ plugins:
   - serverless-webpack
   - serverless-offline
   # - serverless-iam-roles-per-function
-  - serverless-plugin-split-stacks
+  # - serverless-plugin-split-stacks
   - serverless-deployment-bucket
