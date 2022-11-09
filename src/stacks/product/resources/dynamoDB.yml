@@ -9,10 +9,10 @@ Resources:
         - AttributeName: productId
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
-      TableName: ${self:custom.PRODUCT_TABLE}
+      TableName: ${param:PRODUCT_TABLE}
 
 Outputs:
     ProductsTableAccessOutput:
       Value: !GetAtt ProductsTable.Arn
       Export:
-        Name: product-table-access-${self:custom.stage}
+        Name: ${param:PRODUCT_TABLE_ACCESS_ARN}

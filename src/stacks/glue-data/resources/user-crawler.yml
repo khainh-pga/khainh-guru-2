@@ -1,0 +1,20 @@
+Resources:
+  UserCrawler:
+    Type: AWS::Glue::Crawler
+    Properties:
+      Role: !GetAtt AWSGlueDataRole.Arn
+      # Classifiers:
+      #   - ''
+      Description: Cron job to sync user table schema
+      SchemaChangePolicy:
+        DeleteBehavior: DEPRECATE_IN_DATABASE
+        UpdateBehavior: UPDATE_IN_DATABASE
+      Schedule: 
+        ScheduleExpression: "cron(0 18 * * ? *)"
+      DatabaseName: ${param:GLUE_DATABASE}
+      Targets:
+        DynamoDBTargets:
+          - Path: ${param:USER_TABLE}
+      TablePrefix: test-
+      Name: ${param:USER_CRAWLER_NAME}
+      Configuration: "{\"Version\":1.0,\"CrawlerOutput\":{\"Partitions\":{\"AddOrUpdateBehavior\":\"InheritFromTable\"},\"Tables\":{\"AddOrUpdateBehavior\":\"MergeNewColumns\"}}}"

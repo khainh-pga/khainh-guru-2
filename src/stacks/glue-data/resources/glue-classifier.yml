@@ -1,0 +1,8 @@
+Resources:
+  GlueClassifier:
+    Type: AWS::Glue::Classifier
+    Properties:
+      GrokClassifier:
+        Name: "CrawlerClassifier"
+        Classification: "wikiData"
+        GrokPattern: "%{NOTSPACE:createdAt}"

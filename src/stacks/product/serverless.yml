@@ -2,16 +2,21 @@ org: ${file(../../../default.yml):org}
 app: ${file(../../../default.yml):app}
 frameworkVersion: ${file(../../../default.yml):frameworkVersion}
 
-service: product-management
-
+service: product-mng
+params: ${file(../../../default.yml):params}
 custom: ${file(../../../default.yml):custom}
 
 provider:
   name: aws
   runtime: nodejs16.x
-  region: 'ap-southeast-1'
+  region: ${param:AWS_REGION}
+  deploymentBucket: 
+    name: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}
+    # Prevents public access via ACLs or bucket policies (default: false)
+    # Note: the deployment bucket is not public by default. These are additional ACLs.
+    blockPublicAccess: true
   environment:
-    TABLE: ${self:custom.PRODUCT_TABLE}
+    TABLE: ${param:PRODUCT_TABLE}
     STATE: ${sls:stage}
 
 functions:
@@ -22,12 +27,7 @@ functions:
           path: products
           method: post
           cors: true
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:PutItem
-        Resource:
-          - Fn::GetAtt: [ ProductsTable, Arn ]
+    role: TablePutRole
 
   list:
     handler: handler.getListProduct
@@ -36,12 +36,7 @@ functions:
           path: products
           method: get
           cors: true
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:Scan
-        Resource:
-          - Fn::GetAtt: [ ProductsTable, Arn ]
+    role: TableListRole
         
   get:
     handler: handler.getProduct
@@ -50,12 +45,7 @@ functions:
           path: products/{id}
           method: get
           cors: true
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:GetItem
-        Resource:
-          - Fn::GetAtt: [ ProductsTable, Arn ]
+    role: TableGetRole
         
   update:
     handler: handler.updateProduct
@@ -64,12 +54,7 @@ functions:
           path: products/{id}
           method: put
           cors: true 
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:UpdateItem
-        Resource:
-          - Fn::GetAtt: [ ProductsTable, Arn ]
+    role: TableUpdateRole
 
   delete:
     handler: handler.deleteProduct
@@ -78,14 +63,10 @@ functions:
           path: products/{id}
           method: delete
           cors: true
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:DeleteItem
-        Resource:
-          - Fn::GetAtt: [ ProductsTable, Arn ]
+    role: TableDeleteRole
 
 resources:
   - ${file(./resources/dynamoDB.yml)}
+  - ${file(./resources/roles.yml)}
 
 plugins: ${file(../../../default.yml):plugins}

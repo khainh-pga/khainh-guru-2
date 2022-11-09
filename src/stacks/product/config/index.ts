@@ -3,12 +3,13 @@ dotenv.config()
 
 const env = process.env.NODE_ENV || process.env.ENVIRONMENT || 'development'
 const state = process.env.STATE || 'dev'
+const tableName = process.env.TABLE || `product-${state}`
 
 const configs = {
     base: {
       env,
       state,
-      tableName: `product-${state}`
+      tableName
     },
     test: {
       

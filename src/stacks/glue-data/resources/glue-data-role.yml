@@ -1,0 +1,27 @@
+Resources:
+  AWSGlueDataRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: glue-data-access-${self:custom.currentStage}
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - glue.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+      Policies:
+        - PolicyName: DynamoDBRead-${self:custom.currentStage}
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:Scan
+                  - dynamodb:DescribeTable
+                Resource:
+                  - !ImportValue ${param:USER_TABLE_ACCESS_ARN}
+                  - !ImportValue ${param:PRODUCT_TABLE_ACCESS_ARN}

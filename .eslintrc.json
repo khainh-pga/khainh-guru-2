@@ -22,7 +22,8 @@
     "webpack.config.js",
     "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "jest.config.js",
-    "jest-dynamodb-config.js"
+    "jest-dynamodb-config.js",
+    "tsconfig.json"
   ],
   "settings": {
     "import/resolver": {

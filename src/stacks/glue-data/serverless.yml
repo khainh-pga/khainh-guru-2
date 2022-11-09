@@ -1,0 +1,30 @@
+org: ${file(../../../default.yml):org}
+app: ${file(../../../default.yml):app}
+frameworkVersion: ${file(../../../default.yml):frameworkVersion}
+
+service: glue-data
+params: ${file(../../../default.yml):params}
+custom: ${file(../../../default.yml):custom}
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: ${param:AWS_REGION}
+  stackName: glue-data-${sls:stage}
+  deploymentBucket: 
+    name: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}
+    # Prevents public access via ACLs or bucket policies (default: false)
+    # Note: the deployment bucket is not public by default. These are additional ACLs.
+    blockPublicAccess: true
+  environment:
+    STATE: ${sls:stage}
+
+resources:
+  - ${file(./resources/glue-database.yml)}
+  - ${file(./resources/glue-data-role.yml)}
+  - ${file(./resources/user-crawler.yml)}
+  - ${file(./resources/product-crawler.yml)}
+
+# Serverless plugins.
+plugins:
+  - serverless-deployment-bucket

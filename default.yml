@@ -1,10 +1,63 @@
 org: huukhai0510
-app: khainh-guru
+app: khainh-guru-2
 frameworkVersion: ">=3.23.0"
 
 # Load environment variables from .env files (default: false)
 # See https://www.serverless.com/framework/docs/environment-variables
 useDotenv: true
+
+# Params
+params:
+  default:
+    # General
+    DEPLOYMENT_BUCKET_NAME: ${self:service}-art-${sls:stage}
+    AWS_REGION: 'ap-southeast-1'
+    # Glue
+    GLUE_DATABASE: ${self:service}-${sls:stage}
+    DATALAKE_BUCKET_NAME: ${self:service}-data-${sls:stage}
+    S3_LOG_BUCKET_NAME: ${self:service}-logs-${sls:stage}
+    GLUE_DATABASE_ACCESS_ARN: ${self:service}-glue-db-arn-output-${sls:stage}
+    # User service
+    USER_TABLE: ${self:service}-user-${sls:stage}
+    USER_TABLE_ACCESS_ARN: ${self:service}-user-arn-output-${sls:stage}
+    USER_CRAWLER_NAME: ${self:service}-user-crawler-${sls:stage}
+    # Product service
+    PRODUCT_TABLE: ${self:service}-product-${sls:stage}
+    PRODUCT_TABLE_ACCESS_ARN: ${self:service}-product-arn-output-${sls:stage}
+    PRODUCT_CRAWLER_NAME: ${self:service}-product-crawler-${sls:stage}
+  dev:
+    # General
+    DEPLOYMENT_BUCKET_NAME: 'guru2-art-dev'
+    # Glue
+    GLUE_DATABASE: 'guru2-dev'
+    DATALAKE_BUCKET_NAME: 'guru2-data-dev'
+    S3_LOG_BUCKET_NAME: 'guru2-logs-dev'
+    GLUE_DATABASE_ACCESS_ARN: 'guru2-glue-db-arn-output-dev'
+    # User service
+    USER_TABLE: 'guru2-user-dev'
+    USER_TABLE_ACCESS_ARN: 'guru2-user-arn-output-dev'
+    USER_CRAWLER_NAME: 'guru2-user-crawler-dev'
+    # Product service
+    PRODUCT_TABLE: 'guru2-product-dev'
+    PRODUCT_TABLE_ACCESS_ARN: 'guru2-product-arn-output-dev'
+    PRODUCT_CRAWLER_NAME: 'guru2-product-crawler-dev'
+
+  staging:
+    # General
+    DEPLOYMENT_BUCKET_NAME: 'guru2-art-stg'
+    # Glue
+    GLUE_DATABASE: 'guru2-stg'
+    DATALAKE_BUCKET_NAME: 'guru2-data-stg'
+    S3_LOG_BUCKET_NAME: 'guru2-logs-stg'
+    GLUE_DATABASE_ACCESS_ARN: 'guru2-glue-db-arn-output-stg'
+    # User service
+    USER_TABLE: 'guru2-user-stg'
+    USER_TABLE_ACCESS_ARN: 'guru2-user-arn-output-stg'
+    USER_CRAWLER_NAME: 'guru2-user-crawler-stg'
+    # Product service
+    PRODUCT_TABLE: 'guru2-product-stg'
+    PRODUCT_TABLE_ACCESS_ARN: 'guru2-product-arn-output-stg'
+    PRODUCT_CRAWLER_NAME: 'guru2-product-crawler-stg'
 
 # Custom configuration. This is where Serverless Framework plugins get their
 # configuration from.
@@ -12,14 +65,7 @@ custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
   stage: ${self:custom.currentStage}
-  GLUE_DATABASE: 'user-product-${sls:stage}'
-  USER_TABLE: 'users-table-${sls:stage}'
-  PRODUCT_TABLE: 'product-${sls:stage}'
-  S3_BUCKET_NAME: 'user-product-${sls:stage}'
-  S3_LOG_BUCKET_NAME: 'user-product-logs-${sls:stage}'
-  ArtifactBucketName: 'Art-${sls:stage}'
-  StagingDir: data/test-stage/
-  resourcesPrefix: ${self:service}-${self:custom.currentStage}
+  aws_region: ${param:AWS_REGION}
   webpack:
     webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
     includeModules: true   # Node modules configuration for packaging
@@ -35,11 +81,6 @@ custom:
     perFunction: false
     perType: false
 
-  # Merge per-function IAM role configuration with the provider-level role
-  # configuration.
-  serverless-iam-roles-per-function:
-    defaultInherit: true
-
 package:
   individually: true
 
@@ -49,5 +90,6 @@ package:
 plugins:
   - serverless-webpack
   - serverless-offline
-  - serverless-iam-roles-per-function
+  # - serverless-iam-roles-per-function
   - serverless-plugin-split-stacks
+  - serverless-deployment-bucket

@@ -2,16 +2,21 @@ org: ${file(../../../default.yml):org}
 app: ${file(../../../default.yml):app}
 frameworkVersion: ${file(../../../default.yml):frameworkVersion}
 
-service: user-management
-
+service: user-mng
+params: ${file(../../../default.yml):params}
 custom: ${file(../../../default.yml):custom}
 
 provider:
   name: aws
   runtime: nodejs16.x
-  region: 'ap-southeast-1'
+  region: ${self:custom.aws_region}
+  deploymentBucket: 
+    name: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}
+    # Prevents public access via ACLs or bucket policies (default: false)
+    # Note: the deployment bucket is not public by default. These are additional ACLs.
+    blockPublicAccess: true
   environment:
-    TABLE: ${self:custom.USER_TABLE}
+    TABLE: ${param:USER_TABLE}
     STATE: ${sls:stage}
 
 functions:
@@ -22,12 +27,7 @@ functions:
           path: users
           method: post
           cors: true
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:PutItem
-        Resource:
-          - Fn::GetAtt: [ UsersTable, Arn ]
+    role: TablePutRole
 
   list:
     handler: handler.getListUser
@@ -36,12 +36,7 @@ functions:
           path: users
           method: get
           cors: true
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:Scan
-        Resource:
-          - Fn::GetAtt: [ UsersTable, Arn ]
+    role: TableListRole
         
   get:
     handler: handler.getUser
@@ -50,12 +45,7 @@ functions:
           path: users/{id}
           method: get
           cors: true
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:GetItem
-        Resource:
-          - Fn::GetAtt: [ UsersTable, Arn ]
+    role: TableGetRole
         
   update:
     handler: handler.updateUser
@@ -64,12 +54,7 @@ functions:
           path: users/{id}
           method: put
           cors: true
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:UpdateItem
-        Resource:
-          - Fn::GetAtt: [ UsersTable, Arn ]
+    role: TableUpdateRole
 
   delete:
     handler: handler.deleteUser
@@ -78,14 +63,10 @@ functions:
           path: users/{id}
           method: delete
           cors: true 
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:DeleteItem
-        Resource:
-          - Fn::GetAtt: [ UsersTable, Arn ]
+    role: TableDeleteRole
 
 resources:
   - ${file(./resources/dynamoDB.yml)}
+  - ${file(./resources/roles.yml)}
 
 plugins: ${file(../../../default.yml):plugins}
