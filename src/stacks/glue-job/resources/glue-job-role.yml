@@ -1,0 +1,45 @@
+Resources:
+  AWSGlueJobRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: glue-access-${self:custom.currentStage}
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - glue.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+      Policies:
+        - 
+          PolicyName: "S3BucketAccessPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - 
+                Effect: "Allow"
+                Action:
+                  - "s3:PutObject"
+                  - "s3:GetObject"
+                  - "s3:DeleteObject"
+                  - "s3:DeleteObjectVersion"
+                Resource:
+                  - "arn:aws:s3:::${param:DATALAKE_BUCKET_NAME}/*"
+        - 
+          PolicyName: "GlueAccessPolicyUpdate"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              -
+                Effect: "Allow"
+                Action:
+                  - "glue:GetConnections"
+                  - "glue:GetTables"
+                  - "glue:GetDatabases"
+                Resource:
+                  - !Sub arn:aws:glue:${self:provider.region}:${AWS::AccountId}:catalog
+                  - !Sub arn:aws:glue:${self:provider.region}:${AWS::AccountId}:database/${param:GLUE_DATABASE}
+                  - !Sub arn:aws:glue:${self:provider.region}:${AWS::AccountId}:table/${param:GLUE_DATABASE}/*

@@ -1,0 +1,46 @@
+org: ${file(../../../default.yml):org}
+app: ${file(../../../default.yml):app}
+frameworkVersion: ${file(../../../default.yml):frameworkVersion}
+
+service: glue-job
+params: ${file(../../../default.yml):params}
+custom: ${file(../../../default.yml):custom}
+
+# Load environment variables from .env files (default: false)
+# See https://www.serverless.com/framework/docs/environment-variables
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: ${opt:region, 'ap-southeast-1'}
+  stackName: glue-job-${sls:stage}
+  deploymentBucket: 
+    name: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}
+    # Prevents public access via ACLs or bucket policies (default: false)
+    # Note: the deployment bucket is not public by default. These are additional ACLs.
+    blockPublicAccess: true
+  environment:
+    STATE: ${sls:stage}
+
+Glue:
+  bucketDeploy: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}
+  tempDirBucket: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}/tmp
+  tempDirS3Prefix: glue-script
+  s3Prefix: glue-script/
+  createBucket: true
+  jobs:
+    - ${file(./resources/etl-job.yml)}
+  triggers:
+    - ${file(./resources/etl-trigger.yml)}
+
+resources:
+  # - ${file(./resources/glue-database.yml)}
+  - ${file(./resources/datalake.yml)}
+  - ${file(./resources/glue-job-role.yml)}
+  # - ${file(./resources/glue.yml)}
+
+# Serverless plugins.
+plugins:
+  - serverless-deployment-bucket
+  - serverless-glue

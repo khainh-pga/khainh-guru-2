@@ -2,26 +2,25 @@ Resources:
   LogBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${self:custom.S3_LOG_BUCKET_NAME}
+        BucketName: ${param:S3_LOG_BUCKET_NAME}
         VersioningConfiguration:
-          Status: Enabled #keeps different versions of object if overwrited/updated
+          Status: Enabled
         AccessControl:
           LogDeliveryWrite
 
   DataLake:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: ${self:custom.S3_BUCKET_NAME}
+      BucketName: ${param:DATALAKE_BUCKET_NAME}
       VersioningConfiguration:
-        Status: Enabled #keeps different versions of object if overwrited/updated
-      PublicAccessBlockConfiguration: #blocks any public access to s3 bucket
+        Status: Enabled 
+      PublicAccessBlockConfiguration:
         BlockPublicAcls: True
         BlockPublicPolicy: True
         IgnorePublicAcls: True
         RestrictPublicBuckets: True
       LoggingConfiguration:
-        DestinationBucketName: ${self:custom.S3_BUCKET_NAME}
-        LogFilePrefix: ${self:custom.S3_LOG_BUCKET_NAME}
+        DestinationBucketName: ${param:DATALAKE_BUCKET_NAME}
 
   #Arn of S3 bucket needs to be exported in order to use it from other services (ingestion and processing)
   # Outputs:

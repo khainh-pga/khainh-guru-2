@@ -1,0 +1,55 @@
+Resources:
+  ProcessETLJob:
+    Type: "AWS::Glue::Job"
+    Properties:
+      Role: !GetAtt AWSGlueJobRole.Arn
+      Name: "Process ETL"
+      Command: {
+        "Name" : "glueetl",
+        "ScriptLocation": !Sub "s3://${param:DEPLOYMENT_BUCKET_NAME}/${ETLScriptsPrefix}/process_sales_data.py"
+      }
+      DefaultArguments: {
+          "--database_name" : ${param:GLUE_DATABASE},
+          "--s3_output_path": !Sub "s3://${DataBucketName}/${ETLOutputPrefix}/tmp/sales"
+      }
+      MaxRetries: 0
+      Description: "Process Sales Pipeline data."
+      AllocatedCapacity: 5
+
+  # ProcessMarketingDataJob:
+  #   Type: "AWS::Glue::Job"
+  #   Properties:
+  #     Role: ${self:custom.AWSGlueJobRole}
+  #     Name: "ProcessMarketingData"
+  #     Command: {
+  #       "Name" : "glueetl",
+  #       "ScriptLocation": !Sub "s3://${ArtifactBucketName}/${ETLScriptsPrefix}/process_marketing_data.py"
+  #     }
+  #     DefaultArguments: {
+  #         "--database_name" : ${self:custom.MarketingAndSalesDatabaseName},
+  #         "--table_name" : ${self:custom.MarketingTableName},
+
+  #         "--s3_output_path": !Sub "s3://${DataBucketName}/${ETLOutputPrefix}/tmp/marketing"
+  #     }
+  #     MaxRetries: 0
+  #     Description: "Process Marketing data."
+  #     AllocatedCapacity: 5
+
+  # JoinMarketingAndSalesDataJob:
+  #   Type: "AWS::Glue::Job"
+  #   Properties:
+  #     Role: ${self:custom.AWSGlueJobRole}
+  #     Name: "JoinMarketingAndSalesData"
+  #     Command: {
+  #       "Name" : "glueetl",
+  #       "ScriptLocation": !Sub "s3://${ArtifactBucketName}/${ETLScriptsPrefix}/join_marketing_and_sales_data.py"
+  #     }
+  #     DefaultArguments: {
+  #       "--database_name": ${self:custom.MarketingAndSalesDatabaseName},
+  #       "--s3_output_path": !Sub "s3://${DataBucketName}/${ETLOutputPrefix}/sales-leads-influenced",
+  #       "--s3_sales_data_path": !Sub "s3://${DataBucketName}/${ETLOutputPrefix}/tmp/sales",
+  #       "--s3_marketing_data_path": !Sub "s3://${DataBucketName}/${ETLOutputPrefix}/tmp/marketing"
+  #     }
+  #     MaxRetries: 0
+  #     Description: "Join Marketing and Sales data."
+  #     AllocatedCapacity: 5

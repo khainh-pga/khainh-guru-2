@@ -11,11 +11,16 @@ params:
   default:
     # General
     DEPLOYMENT_BUCKET_NAME: ${self:service}-art-${sls:stage}
+    CRON_SCHEDULE: 0 18 * * ? *
     # Glue
     GLUE_DATABASE: ${self:service}-${sls:stage}
+    GLUE_TABLE_PREFIX: ${self:service}-${sls:stage}-
     DATALAKE_BUCKET_NAME: ${self:service}-data-${sls:stage}
     S3_LOG_BUCKET_NAME: ${self:service}-logs-${sls:stage}
     GLUE_DATABASE_ACCESS_ARN: ${self:service}-glue-db-arn-output-${sls:stage}
+    GLUE_ETL_JOB_NAME: ${self:service}-etl-job-${sls:stage}
+    ETL_OUTPUT_PREFIX: ${self:service}-csv-${sls:stage}
+    GLUE_JOB_SCHEDULE: 0 19 * * ? *
     # User service
     USER_TABLE: ${self:service}-user-${sls:stage}
     USER_TABLE_ACCESS_ARN: ${self:service}-user-arn-output-${sls:stage}
@@ -29,9 +34,12 @@ params:
     DEPLOYMENT_BUCKET_NAME: 'guru2-art-dev'
     # Glue
     GLUE_DATABASE: 'guru2-dev'
+    GLUE_TABLE_PREFIX: 'guru2-dev-'
     DATALAKE_BUCKET_NAME: 'guru2-data-dev'
     S3_LOG_BUCKET_NAME: 'guru2-logs-dev'
     GLUE_DATABASE_ACCESS_ARN: 'guru2-glue-db-arn-output-dev'
+    GLUE_ETL_JOB_NAME: 'guru2-etl-job-dev'
+    ETL_OUTPUT_PREFIX: 'guru2-csv-dev'
     # User service
     USER_TABLE: 'guru2-user-dev'
     USER_TABLE_ACCESS_ARN: 'guru2-user-arn-output-dev'
@@ -46,9 +54,12 @@ params:
     DEPLOYMENT_BUCKET_NAME: 'guru2-art-stg'
     # Glue
     GLUE_DATABASE: 'guru2-stg'
+    GLUE_TABLE_PREFIX: 'guru2-stg-'
     DATALAKE_BUCKET_NAME: 'guru2-data-stg'
     S3_LOG_BUCKET_NAME: 'guru2-logs-stg'
     GLUE_DATABASE_ACCESS_ARN: 'guru2-glue-db-arn-output-stg'
+    GLUE_ETL_JOB_NAME: 'guru2-etl-job-stg'
+    ETL_OUTPUT_PREFIX: 'guru2-csv-stg'
     # User service
     USER_TABLE: 'guru2-user-stg'
     USER_TABLE_ACCESS_ARN: 'guru2-user-arn-output-stg'

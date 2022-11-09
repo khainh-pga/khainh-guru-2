@@ -1,0 +1,6 @@
+name: ${param:GLUE_ETL_JOB_NAME}-trigger # Required
+# Description: # Optional, string
+StartOnCreation: True # Optional, True or False
+schedule: ${param:GLUE_JOB_SCHEDULE} # Optional, CRON expression. The trigger will be created with On-Demand type if the schedule is not provided.   
+actions: # Required. One or more jobs to trigger
+  - name: ${param:GLUE_ETL_JOB_NAME} # Required
