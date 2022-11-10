@@ -1,6 +1,7 @@
 Resources:
   LogBucket:
       Type: AWS::S3::Bucket
+      DeletionPolicy: Retain
       Properties:
         BucketName: ${param:S3_LOG_BUCKET_NAME}
         VersioningConfiguration:
@@ -12,6 +13,7 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: ${param:DATALAKE_BUCKET_NAME}
+      DeletionPolicy: Retain
       VersioningConfiguration:
         Status: Enabled 
       PublicAccessBlockConfiguration:
