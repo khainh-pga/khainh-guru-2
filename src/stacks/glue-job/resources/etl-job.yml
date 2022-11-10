@@ -4,12 +4,12 @@ scriptPath: etl-job.py # Required script will be named with the name after '/' a
 # Description: # Optional, string
 tempDir: true # Optional true | false
 type: spark # spark / pythonshell # Required
-glueVersion: python3-1.0 # Required "python3.9-1.0" | "python3.9-2.0" | "python3.9-3.0" | "python3-1.0" | "python3-2.0" | "python3-3.0" | "python2-1.0" | "python2-0.9" | "scala2-1.0" | "scala2-0.9" | "scala2-2.0" | "scala3-3.0"
+glueVersion: python3-3.0 # Required "python3.9-1.0" | "python3.9-2.0" | "python3.9-3.0" | "python3-1.0" | "python3-2.0" | "python3-3.0" | "python2-1.0" | "python2-0.9" | "scala2-1.0" | "scala2-0.9" | "scala2-2.0" | "scala3-3.0"
 role: !GetAtt AWSGlueJobRole.Arn
 # MaxCapacity: 1 #Optional
 # MaxConcurrentRuns: 3 # Optional
-WorkerType: Standard # Optional, G.1X | G.2X
-NumberOfWorkers: 1 # Optional
+WorkerType: G.1X # Optional, G.1X | G.2X
+NumberOfWorkers: 2 # Optional
 # SecurityConfiguration: # Optional, name of security configuration
 # Connections: # Optional
   # - some-conection-string
@@ -21,6 +21,8 @@ DefaultArguments: # Optional
     GLUE_DATABASE: ${param:GLUE_DATABASE}
     GLUE_USER_TABLE: ${param:GLUE_TABLE_PREFIX}${param:USER_TABLE}
     GLUE_PRODUCT_TABLE: ${param:GLUE_TABLE_PREFIX}${param:PRODUCT_TABLE}
+    DATALAKE_BUCKET_NAME: ${param:DATALAKE_BUCKET_NAME}
+    ETL_OUTPUT_PREFIX: ${param:ETL_OUTPUT_PREFIX}
     ETL_OUTPUT_PATH: ${param:DATALAKE_BUCKET_NAME}/${param:ETL_OUTPUT_PREFIX}
 # SupportFiles: # Optional
 #   - local_path: path/to/file/or/folder/ # Required if SupportFiles is given, you can pass a folder path or a file path

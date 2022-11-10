@@ -22,11 +22,11 @@ params:
     ETL_OUTPUT_PREFIX: ${self:service}-csv-${sls:stage}
     GLUE_JOB_SCHEDULE: 0 19 * * ? *
     # User service
-    USER_TABLE: ${self:service}-user-${sls:stage}
+    USER_TABLE: ${self:service}_user_${sls:stage}
     USER_TABLE_ACCESS_ARN: ${self:service}-user-arn-output-${sls:stage}
     USER_CRAWLER_NAME: ${self:service}-user-crawler-${sls:stage}
     # Product service
-    PRODUCT_TABLE: ${self:service}-product-${sls:stage}
+    PRODUCT_TABLE: ${self:service}_product_${sls:stage}
     PRODUCT_TABLE_ACCESS_ARN: ${self:service}-product-arn-output-${sls:stage}
     PRODUCT_CRAWLER_NAME: ${self:service}-product-crawler-${sls:stage}
   dev:
@@ -41,11 +41,11 @@ params:
     GLUE_ETL_JOB_NAME: 'guru2-etl-job-dev'
     ETL_OUTPUT_PREFIX: 'guru2-csv-dev'
     # User service
-    USER_TABLE: 'guru2-user-dev'
+    USER_TABLE: 'guru2_user_dev'
     USER_TABLE_ACCESS_ARN: 'guru2-user-arn-output-dev'
     USER_CRAWLER_NAME: 'guru2-user-crawler-dev'
     # Product service
-    PRODUCT_TABLE: 'guru2-product-dev'
+    PRODUCT_TABLE: 'guru2_product_dev'
     PRODUCT_TABLE_ACCESS_ARN: 'guru2-product-arn-output-dev'
     PRODUCT_CRAWLER_NAME: 'guru2-product-crawler-dev'
 
@@ -61,11 +61,11 @@ params:
     GLUE_ETL_JOB_NAME: 'guru2-etl-job-stg'
     ETL_OUTPUT_PREFIX: 'guru2-csv-stg'
     # User service
-    USER_TABLE: 'guru2-user-stg'
+    USER_TABLE: 'guru2_user_stg'
     USER_TABLE_ACCESS_ARN: 'guru2-user-arn-output-stg'
     USER_CRAWLER_NAME: 'guru2-user-crawler-stg'
     # Product service
-    PRODUCT_TABLE: 'guru2-product-stg'
+    PRODUCT_TABLE: 'guru2_product_stg'
     PRODUCT_TABLE_ACCESS_ARN: 'guru2-product-arn-output-stg'
     PRODUCT_CRAWLER_NAME: 'guru2-product-crawler-stg'
 

@@ -18,6 +18,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+                  - dynamodb:GetItem
                   - dynamodb:PutItem
                 Resource:
                   - !GetAtt UsersTable.Arn
@@ -84,6 +85,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+                  - dynamodb:GetItem
                   - dynamodb:UpdateItem
                 Resource:
                   - !GetAtt UsersTable.Arn
@@ -106,6 +108,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+                  - dynamodb:GetItem
                   - dynamodb:DeleteItem
                 Resource:
                   - !GetAtt UsersTable.Arn

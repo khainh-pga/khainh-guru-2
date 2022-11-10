@@ -15,7 +15,7 @@ Resources:
         - "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
       Policies:
         - 
-          PolicyName: "S3BucketAccessPolicy"
+          PolicyName: "S3DatalakeBucketAccessPolicy"
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
@@ -28,6 +28,17 @@ Resources:
                   - "s3:DeleteObjectVersion"
                 Resource:
                   - "arn:aws:s3:::${param:DATALAKE_BUCKET_NAME}/*"
+        - 
+          PolicyName: "S3GlueScriptBucketAccessPolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - 
+                Effect: "Allow"
+                Action:
+                  - "s3:GetObject"
+                Resource:
+                  - "arn:aws:s3:::${param:DEPLOYMENT_BUCKET_NAME}/glue-scripts/*"
         - 
           PolicyName: "GlueAccessPolicyUpdate"
           PolicyDocument:
@@ -43,3 +54,14 @@ Resources:
                   - !Sub arn:aws:glue:${self:provider.region}:${AWS::AccountId}:catalog
                   - !Sub arn:aws:glue:${self:provider.region}:${AWS::AccountId}:database/${param:GLUE_DATABASE}
                   - !Sub arn:aws:glue:${self:provider.region}:${AWS::AccountId}:table/${param:GLUE_DATABASE}/*
+        - PolicyName: DynamoDBRead-${self:custom.currentStage}
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:Scan
+                  - dynamodb:DescribeTable
+                Resource:
+                  - !ImportValue ${param:USER_TABLE_ACCESS_ARN}
+                  - !ImportValue ${param:PRODUCT_TABLE_ACCESS_ARN}

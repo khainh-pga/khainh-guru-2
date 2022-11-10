@@ -10,8 +10,10 @@ provider:
   name: aws
   runtime: nodejs16.x
   region: ${opt:region, 'ap-southeast-1'}
+  # The S3 prefix under which deployed artifacts are stored (default: serverless)
+  deploymentPrefix: sls-${self:service}
   deploymentBucket: 
-    name: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}
+    name: ${param:DEPLOYMENT_BUCKET_NAME}
     # Prevents public access via ACLs or bucket policies (default: false)
     # Note: the deployment bucket is not public by default. These are additional ACLs.
     blockPublicAccess: true

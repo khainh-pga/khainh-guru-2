@@ -38,12 +38,14 @@ export const _update = async (ambience: ProcessAmbience<void, void>): Promise<Re
           },
           ExpressionAttributeNames: {
             '#name': 'name',
+            '#owner': 'owner'
           },
           ExpressionAttributeValues: {
             ':name': data.name,
+            ':owner': data.owner,
             ':updatedAt': timestamp,
           },
-          UpdateExpression: 'SET #name = :name, updatedAt = :updatedAt',
+          UpdateExpression: 'SET #name = :name, #owner = :owner, updatedAt = :updatedAt',
           ReturnValues: 'ALL_NEW',
         }
   

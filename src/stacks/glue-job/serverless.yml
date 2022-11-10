@@ -15,8 +15,10 @@ provider:
   runtime: python3.9
   region: ${opt:region, 'ap-southeast-1'}
   stackName: glue-job-${sls:stage}
+  # The S3 prefix under which deployed artifacts are stored (default: serverless)
+  deploymentPrefix: sls-${self:service}
   deploymentBucket: 
-    name: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}
+    name: ${param:DEPLOYMENT_BUCKET_NAME}
     # Prevents public access via ACLs or bucket policies (default: false)
     # Note: the deployment bucket is not public by default. These are additional ACLs.
     blockPublicAccess: true
@@ -24,10 +26,10 @@ provider:
     STATE: ${sls:stage}
 
 Glue:
-  bucketDeploy: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}
-  tempDirBucket: ${param:DEPLOYMENT_BUCKET_NAME}-${self:service}/tmp
-  tempDirS3Prefix: glue-script
-  s3Prefix: glue-script/
+  bucketDeploy: ${param:DEPLOYMENT_BUCKET_NAME}
+  tempDirBucket: ${param:DEPLOYMENT_BUCKET_NAME}/tmp
+  tempDirS3Prefix: glue-scripts
+  s3Prefix: glue-scripts/
   createBucket: true
   jobs:
     - ${file(./resources/etl-job.yml)}
