@@ -76,7 +76,8 @@ describe('Product management', () => {
 
   describe('Update product', () => {
     const updatePayload = {
-      name: 'New Product Name'
+      name: 'New Product Name',
+      owner: 'user-002'
     }
 
     it('Should return response.', done => {
@@ -87,6 +88,7 @@ describe('Product management', () => {
         expect(body.statusCode).toBe(200)
         expect(body.data?.productId).toBe(dummyProduct.productId)
         expect(body.data?.name).toBe(updatePayload.name)
+        expect(body.data?.owner).toBe(updatePayload.owner)
         expect(body.data?.updatedAt).toBeGreaterThan(body.data?.createdAt)
         expect(callback.verify()).toBe(true)
 
