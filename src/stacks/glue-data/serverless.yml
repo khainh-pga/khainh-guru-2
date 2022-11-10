@@ -1,5 +1,5 @@
-org: ${file(../../../default.yml):org}
-app: ${file(../../../default.yml):app}
+# org: ${file(../../../default.yml):org}
+# app: ${file(../../../default.yml):app}
 frameworkVersion: ${file(../../../default.yml):frameworkVersion}
 
 service: glue-data
