@@ -22,6 +22,7 @@ provider:
     # Prevents public access via ACLs or bucket policies (default: false)
     # Note: the deployment bucket is not public by default. These are additional ACLs.
     blockPublicAccess: true
+  deploymentMethod: direct
   environment:
     STATE: ${sls:stage}
 
