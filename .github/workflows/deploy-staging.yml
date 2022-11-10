@@ -36,7 +36,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: cd src/stacks/user && npx yarn
+    - run: cd src/stacks/user && yarn install
     - name: serverless deploy
       uses: serverless/github-action@v3.1
       with:
@@ -84,6 +84,11 @@ jobs:
         node-version: [16.x]
     steps:
     - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: cd src/stacks/glue-data && yarn install
     - name: serverless deploy
       uses: serverless/github-action@v3.1
       with:
@@ -105,6 +110,11 @@ jobs:
         node-version: [16.x]
     steps:
     - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: cd src/stacks/glue-job && yarn install
     - name: serverless deploy
       uses: serverless/github-action@v3.1
       with:
