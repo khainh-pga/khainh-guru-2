@@ -1,0 +1,113 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="identifier">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="flight">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="fnCarrier"/>
+              <xs:element type="xs:short" name="fnNumber"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element type="xs:date" name="dayOfOrigin"/>
+        <xs:element type="xs:date" name="localDayOfOrigin"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="leg">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="xs:string" name="state"/>
+        <xs:element type="xs:string" name="callSign"/>
+        <xs:element name="schedule">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="departureAirport"/>
+              <xs:element type="xs:dateTime" name="departure"/>
+              <xs:element type="xs:string" name="arrivalAirport"/>
+              <xs:element type="xs:dateTime" name="arrival"/>
+              <xs:element type="xs:string" name="serviceType"/>
+              <xs:element type="xs:string" name="aircraftOwner"/>
+              <xs:element type="xs:string" name="aircraftSubtype"/>
+              <xs:element name="aircraftConfiguration">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute type="xs:string" name="modified"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="rotationIdentifier">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="prevRegistration"/>
+                    <xs:element type="xs:string" name="registration"/>
+                  </xs:sequence>
+                  <xs:attribute type="xs:string" name="modified"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element type="xs:string" name="employerCabin"/>
+              <xs:element type="xs:string" name="employerCockpit"/>
+              <xs:element name="seats">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:byte" name="seatsF"/>
+                    <xs:element type="xs:byte" name="seatsC"/>
+                    <xs:element type="xs:short" name="seatsY"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="actuals">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:dateTime" name="estimatedTimeDeparture"/>
+              <xs:element type="xs:dateTime" name="estimatedTimeArrival"/>
+              <xs:element name="delay">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:byte" name="delayCode"/>
+                    <xs:element type="xs:byte" name="delayTime"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="misc">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="depGate"/>
+              <xs:element type="xs:string" name="depStand"/>
+              <xs:element type="xs:string" name="internalRemark"/>
+              <xs:element type="xs:string" name="legRemark"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="lastUpdate">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="userId"/>
+              <xs:element type="xs:dateTime" name="timestamp"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="modified"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sender" type="xs:string"/>
+  <xs:element name="receiver" type="xs:string"/>
+  <xs:element name="created" type="xs:dateTime"/>
+  <xs:element name="messages">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="flig:flightDetail" xmlns:flig="http://www.lsb.de/apc/customer/aca/flightDetail"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
