@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+   <xs:element name="env:envelope">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element type=" xs: string" name="sender" />
+            <xs:element type=" xs: string" name="receiver" />
+            <xs:element type=" xs: string" name="created" />
+            <xs:element name="messages">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="fld:flightDetail">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element name="identifier">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element name="flight">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element type=" xs: string" name="fnCarrier" />
+                                                <xs:element type=" xs: short" name="fnNumber" />
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element type=" xs: Date" name="dayOfOrigin" />
+                                    </xs:sequence>
+                                 </xs:complexType>
+                              </xs:element>
+                              <xs:element name="leg">
+                                 <xs:complexType>
+                                    <xs:sequence>
+                                       <xs:element type=" xs: string" name="state" />
+                                       <xs:element type=" xs: string" name="callSign" />
+                                       <xs:element name="schedule">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element type=" xs: string" name="departureAirport" />
+                                                <xs:element type=" xs: string" name="departure" />
+                                                <xs:element type=" xs: string" name="arrivalAirport" />
+                                                <xs:element type=" xs: string" name="arrival" />
+                                                <xs:element type=" xs: string" name="serviceType" />
+                                                <xs:element type=" xs: string" name="aircraftOwner" />
+                                                <xs:element type=" xs: short" name="aircraftSubtype" />
+                                                <xs:element type=" xs: string" name="aircraftConfiguration" />
+                                                <xs:element name="rotationIdentifier">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element type=" xs: string" name="registration" />
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                                <xs:element type=" xs: string" name="employerCabin" />
+                                                <xs:element type=" xs: string" name="employerCockpit" />
+                                                <xs:element name="seats">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element type=" xs: byte" name="seatsF" />
+                                                         <xs:element type=" xs: byte" name="seatsC" />
+                                                         <xs:element type=" xs: byte" name="seatsY" />
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="actuals">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element type=" xs: string" name="estimatedTimeTouchdown" />
+                                                <xs:element name="estimatedTimeArrival">
+                                                   <xs:complexType>
+                                                      <xs:simpleContent>
+                                                         <xs:extension base="xs:string">
+                                                            <xs:attribute type="xs:string" name="modified" />
+                                                         </xs:extension>
+                                                      </xs:simpleContent>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                                <xs:element type=" xs: string" name="offblockTime" />
+                                                <xs:element type=" xs: string" name="airborneTime" />
+                                                <xs:element name="delay">
+                                                   <xs:complexType>
+                                                      <xs:sequence>
+                                                         <xs:element type=" xs: byte" name="delayCode" />
+                                                         <xs:element type=" xs: byte" name="delayTime" />
+                                                         <xs:element type=" xs: string" name="subDelayCode" />
+                                                      </xs:sequence>
+                                                   </xs:complexType>
+                                                </xs:element>
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="misc">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element type=" xs: byte" name="fuelOnBoardOffblock" />
+                                                <xs:element type=" xs: short" name="fuelUplift" />
+                                                <xs:element type=" xs: Date" name="siRemark" />
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                       <xs:element name="lastUpdate">
+                                          <xs:complexType>
+                                             <xs:sequence>
+                                                <xs:element type=" xs: string" name="userId" />
+                                                <xs:element type=" xs: string" name="timestamp" />
+                                             </xs:sequence>
+                                          </xs:complexType>
+                                       </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="xmlns:fld" />
+                                 </xs:complexType>
+                              </xs:element>
+                           </xs:sequence>
+                           <xs:attribute type="xs:string" name="xmlns:ns0" />
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+         <xs:attribute type="xs:string" name="xmlns:env" />
+      </xs:complexType>
+   </xs:element>
+</xs:schema>
